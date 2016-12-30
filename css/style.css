@@ -1,0 +1,28 @@
+      html,
+      body {
+        font-family: Arial, sans-serif;
+        height: 100%;
+        margin: 0;
+        padding: 10px;
+      }
+
+      #map {
+        height: 100%;
+        }
+
+      #neighborhood {
+      	width: 100;
+      	text-align: center;
+      }
+
+      #attraction {
+      	width: 100%;
+      	text-align: center
+      }
+
+      #attraction-list {
+      	max-width: 25%;
+      	float: left;
+      	padding-right: 10px;
+      }
+
