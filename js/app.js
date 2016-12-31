@@ -293,7 +293,11 @@
              }
          ]
      });
+ 
+  ko.applyBindings(new ViewModel());
+
  }
+
 
 
  //view model 
@@ -313,7 +317,7 @@
      });
 
      self.currentAttraction = function() {
-        fillwindow(this, infowindow)
+        fillwindow(this, infowindow);
     };
 
 
@@ -394,5 +398,8 @@
 
  };
 
- ko.applyBindings(new ViewModel());
+ function googleError(){
+  alert("At this time we are unable to load Google Maps");
+}
+
 
