@@ -13,25 +13,44 @@
 </head>
 
 <body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <img class="title-logo" src="images/hawaii.jpg" alt="megan-logo">
+      </div>
+      <div id="header-title">
+        <h1 class="title">Kaua'i, Hawaii</h1>
+        <h3 class="author">Megan Dollar</h3>
+      </div>
+    </div>
+  </header>
 
-  <div id="neighborhood">
-    <h1>Kaua'i, Hawaii</h1>
-  </div>
-  <div id="attraction-list">
-    <h3>Favorite Lookouts: </h3>
-      <ul data-bind="foreach: attractionList">
-          <li data-bind="text: name, click: $parent.currentAttraction"></li>
-      </ul>
+  <div class="row">
+    <div class="hr">
+      <hr>
+    </div>
   </div>
 
-  <div id="map">
+  <section class="container">
+    <div id="attraction-list">
+      <h4 class="title-list">Favorite Lookouts: </h4>
+      <h5 class="search-box">Search:
+        <input data-bind="textInput: userInput">
+      </h5>
+       <ul data-bind="foreach: attractionList">
+          <li data-bind="text: name, click: $parent.currentAttraction" class="list-item"></li>
+        </ul>
+    </div>
+    <div id="map">
+    </div>
   </div>
+</section>
 
     <script src="js/lib/knockout-3.4.1.js"></script>
     
     <script src="js/app.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyCWPaK_E7Zw7sUGa7oxoJVaNb2B8D66DG0&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyCWPaK_E7Zw7sUGa7oxoJVaNb2B8D66DG0&callback=initMap" onerror="googleError()"></script>
 
 </body>
 </html>
