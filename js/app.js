@@ -304,10 +304,10 @@
      var bounds = new google.maps.LatLngBounds();
 
      //unclicked marker color 
-     var markerDefault = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+     var markerDefault = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
 
      //clicked marker
-     var markerSelected = 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+     var markerSelected = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 
      //create an array of markers from the model locations
      for (i = 0; i < model.length; i++) {
