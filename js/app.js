@@ -389,7 +389,7 @@ function addMarkers() {
                     // close the marker when the button is clicked.
                     info.addListener('closeclick', function() {
                         marker.setIcon(markerDefault);
-                        info.setMarker(null);
+                        info.setMarker = null;
                     });
                 }
             }
