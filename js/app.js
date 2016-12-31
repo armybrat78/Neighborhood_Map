@@ -59,6 +59,8 @@
  //initialize map
  var map;
 
+ var marker;
+
 
  //create empty array to hold model markers
  var markers = [];
@@ -315,12 +317,16 @@
          var position = model[i].location;
 
          var name = model[i].name;
+
+         var fact = model[i].fact;
+
          //create a marker for each position and add to the empty array
          var marker = new google.maps.Marker({
              map: map,
              icon: markerDefault,
              position: position,
              name: name,
+             fact: fact,
              animation: google.maps.Animation.DROP,
              id: i
          });
@@ -354,7 +360,7 @@
          // Only open one window per marker.
          if (info.marker != marker) {
              info.marker = marker;
-             info.setContent('<div>' + marker.name + '</div>');
+             info.setContent('<div>' + marker.name + '</div>' + '<div>' + marker.fact + '</div>');
              info.open(map, marker);
              marker.setIcon(markerSelected);
              // close the marker when the button is clicked.
@@ -366,7 +372,21 @@
          }
      }
 
+     function fillMarker(clickedAttraction) {
+                 if (info.marker != marker) {
+             info.marker = marker;
+             info.setContent('<div>' + marker.name + '</div>' + '<div>' + marker.fact + '</div>');
+             info.open(map, marker);
+             marker.setIcon(markerSelected);
+             // close the marker when the button is clicked.
+             info.addListener('closeclick', function() {
+                 marker.setIcon(markerDefault);
+                 info.setMarker = null;
+             });
+     }
+
  }
+}
  //view model 
 
  var ViewModel = function() {
@@ -379,11 +399,10 @@
          self.attractionList.push(new Attraction(attractionItem));
      });
 
-     this.currentAttraction = ko.observable(this.attractionList()[0]);
-
-     this.setAttraction = function(clickedAttraction) {
-         self.currentAttraction(clickedAttraction);
-     };
+     self.currentAttraction = function(clickedAttraction) {
+        fillMarker(clickedAttraction)
+    };
+     
 
  };
 
