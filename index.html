@@ -17,17 +17,11 @@
   <div id="neighborhood">
     <h1>Kaua'i, Hawaii</h1>
   </div>
-
   <div id="attraction-list">
     <h3>Favorite Lookouts: </h3>
       <ul data-bind="foreach: attractionList">
-          <li data-bind="text: name, click: $parent.setAttraction"></li>
+          <li data-bind="text: name, click: $parent.currentAttraction"></li>
       </ul>
-  </div>
-
-  <div data-bind="with: currentAttraction" id="attraction">
-    <h2 data-bind="text: name" id="attraction-name"></h2>
-    <p data-bind="text: fact"></p>
   </div>
 
   <div id="map">
@@ -37,7 +31,7 @@
     
     <script src="js/app.js"></script>
 
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCWPaK_E7Zw7sUGa7oxoJVaNb2B8D66DG0&callback=initMap"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyCWPaK_E7Zw7sUGa7oxoJVaNb2B8D66DG0&callback=initMap"></script>
 
 </body>
 </html>
