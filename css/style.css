@@ -1,28 +1,69 @@
-      html,
-      body {
-        font-family: Arial, sans-serif;
-        height: 100%;
-        margin: 0;
-        padding: 10px;
-      }
+ * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing:border-box;
+  box-sizing: border-box;
+}
+.header {
+    margin:10px;
+    max-width: 100%;
+    width: 100%;
+    color: #2d3c49;
+}
+.header-inner {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.header-logo {
+    width: 30%;
+}
+#header-title {
+    padding-right: 10px;
+    text-align: right;
+    text-transform: uppercase;
+    width: 70%;
+}
 
-      #map {
-        height: 100%;
-        }
+.title {
+  font-size: 300%;
+  margin-bottom: 0;
+}
+.author{
+  margin-top: 5px;
+  font-weight: 900;
+  font-size: 130%;
+}
 
-      #neighborhood {
-      	width: 100;
-      	text-align: center;
-      }
+.title-logo {
+  margin-top: 30px;
+  padding: 10px;
+  max-width: 45%;
 
-      #attraction {
-      	width: 100%;
-      	text-align: center
-      }
+}
 
-      #attraction-list {
-      	max-width: 25%;
-      	float: left;
-      	padding-right: 10px;
-      }
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  height: 500px;
+}
 
+#map {
+  width: 70%;
+  }
+
+.title-list, .search-box{
+  text-align: center;
+}
+
+#attraction {
+  width: 100%;
+  text-align: center
+}
+
+#attraction-list {
+  width: 25%;
+  float: left;
+  padding-right: 10px;
+  }
