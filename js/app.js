@@ -62,10 +62,6 @@
  var marker;
 
 
- //create empty array to hold model markers
- var markers = [];
-
-
  function initMap() {
      var kauai = {
          lat: 22.0584376,
@@ -297,10 +293,29 @@
              }
          ]
      });
-     addMarkers();
  }
 
- function addMarkers() {
+
+ //view model 
+
+ var ViewModel = function() {
+
+
+    //create empty array to hold model markers
+    var markers = [];
+
+     var self = this;
+
+     this.attractionList = ko.observableArray([]);
+
+     model.forEach(function(attractionItem) {
+         self.attractionList.push(new Attraction(attractionItem));
+     });
+
+     self.currentAttraction = function() {
+        fillwindow(this, infowindow)
+    };
+
 
      // Limits the map to display attractions on the screen
      var bounds = new google.maps.LatLngBounds();
@@ -333,6 +348,8 @@
 
          //push markers out to array of markers
          markers.push(marker);
+
+
 
          //creates a variable info window
          var infowindow = new google.maps.InfoWindow();
@@ -372,38 +389,10 @@
          }
      }
 
-     function fillMarker(clickedAttraction) {
-                 if (info.marker != marker) {
-             info.marker = marker;
-             info.setContent('<div>' + marker.name + '</div>' + '<div>' + marker.fact + '</div>');
-             info.open(map, marker);
-             marker.setIcon(markerSelected);
-             // close the marker when the button is clicked.
-             info.addListener('closeclick', function() {
-                 marker.setIcon(markerDefault);
-                 info.setMarker = null;
-             });
-     }
-
- }
-}
- //view model 
-
- var ViewModel = function() {
-
-     var self = this;
-
-     this.attractionList = ko.observableArray([]);
-
-     model.forEach(function(attractionItem) {
-         self.attractionList.push(new Attraction(attractionItem));
-     });
-
-     self.currentAttraction = function(clickedAttraction) {
-        fillMarker(clickedAttraction)
-    };
+ 
      
 
  };
 
  ko.applyBindings(new ViewModel());
+
