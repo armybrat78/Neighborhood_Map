@@ -1,65 +1,68 @@
  //Model of attractions
  var model = [{
-         name: 'Kalalau Lookout',
+         title: 'Kalalau Lookout',
          fact: 'A valley that has beein in multiple films such as Jurrasic Park.',
          location: {
-             lat: 22.1492872,
-             lng: -159.6372744
+             lat: 22.1511297,
+             lng: -159.6459593
          }
      },
      {
-         name: 'Puu Hinahina Lookout',
-         fact: 'A breathtaking view of the Waimea Canyon.',
+         title: 'Glass Beach',
+         fact: 'A beach in Hanapepe made of sea glass.',
          location: {
-             lat: 22.1471115,
-             lng: -159.6646929
+             lat: 21.89813329999999,
+             lng: -159.584407
          }
      },
      {
-         name: 'Wailua River Lookout',
-         fact: 'Views of Kauais River.',
+         title: 'Anini Beach',
+         fact: 'A popular snorkeling site located on North Shore.',
          location: {
-             lat: 22.0483333,
-             lng: -159.3391667
+             lat: 22.2232101,
+             lng: -159.4629983
          }
      },
      {
-         name: 'Kumuwela Lookout',
-         fact: 'Canyon and waterfall views of the Waimea Canyon.',
+         title: 'Na Pali Coast State Park',
+         fact: 'A park with hiking and beaches.',
          location: {
-             lat: 22.1471115,
-             lng: -159.6646929
+             lat: 22.1667456,
+             lng: -159.639244
          }
      },
      {
-         name: 'Spouting Horn Park',
-         fact: 'Two blowholes in the lava-reef rock that erupt.',
+         title: 'Kalapaki Beach',
+         fact: 'Swimmer, surfers, and kayakers delight at this beach.',
          location: {
-             lat: 21.88476949999999,
-             lng: -159.4932028
+             lat: 21.9605229,
+             lng: -159.3501759
          }
      },
      {
-         name: 'Opaeka Falls Lookout',
-         fact: 'Waterfalls reaching 150 ft.',
+         title: 'Kilauea Lighthouse',
+         fact: 'Located in the Kilauea Point National Wildlife Refuge.',
          location: {
-             lat: 22.048087,
-             lng: -159.3617936
+             lat: 22.2316937,
+             lng: -159.4019597
          }
      }
  ];
+//initialize map
+var map;
 
- //create attraction name and title for each attraction in the observable array
+//create empty array to hold model markers
+var markers = [];
+
+var userInput;
+
+ //create attraction title and title for each attraction object in the observable array
 
  var Attraction = function(data) {
-     this.name = ko.observable(data.name);
+     this.title = ko.observable(data.title);
      this.fact = ko.observable(data.fact);
  };
 
- //initialize map
- var map;
-
- var marker;
 
 
  function initMap() {
@@ -293,7 +296,7 @@
              }
          ]
      });
- 
+
   ko.applyBindings(new ViewModel());
 
  }
@@ -304,21 +307,18 @@
 
  var ViewModel = function() {
 
-
-    //create empty array to hold model markers
-    var markers = [];
-
      var self = this;
 
-     this.attractionList = ko.observableArray([]);
+     self.attractionList = ko.observableArray([]);
 
      model.forEach(function(attractionItem) {
          self.attractionList.push(new Attraction(attractionItem));
      });
 
-     self.currentAttraction = function() {
-        fillwindow(this, infowindow);
-    };
+     //stuck here- trying to load the same fill window function when clicking an attraction on the list
+     self.currentAttraction = function(){
+        fillwindow();
+     };
 
 
      // Limits the map to display attractions on the screen
@@ -332,10 +332,10 @@
 
      //create an array of markers from the model locations
      for (i = 0; i < model.length; i++) {
-         //get the position and name from the model array
+         //get the position and title from the model array
          var position = model[i].location;
 
-         var name = model[i].name;
+         var title = model[i].title;
 
          var fact = model[i].fact;
 
@@ -344,7 +344,7 @@
              map: map,
              icon: markerDefault,
              position: position,
-             name: name,
+             title: title,
              fact: fact,
              animation: google.maps.Animation.DROP,
              id: i
@@ -352,8 +352,6 @@
 
          //push markers out to array of markers
          markers.push(marker);
-
-
 
          //creates a variable info window
          var infowindow = new google.maps.InfoWindow();
@@ -380,21 +378,45 @@
      function fillwindow(marker, info) {
          // Only open one window per marker.
          if (info.marker != marker) {
+             infowindow.setContent('');
              info.marker = marker;
-             info.setContent('<div>' + marker.name + '</div>' + '<div>' + marker.fact + '</div>');
-             info.open(map, marker);
+             //change the marker color when clicked 
              marker.setIcon(markerSelected);
-             // close the marker when the button is clicked.
+             // close the marker when the button is clicked and change color back to default
              info.addListener('closeclick', function() {
                  marker.setIcon(markerDefault);
                  info.setMarker = null;
              });
 
-         }
-     }
-
- 
-     
+            var streetViewService = new google.maps.StreetViewService();
+            var radius = 50;
+            // function to load the street view first checks the google status for loading the pano then calculates the heading
+            function getStreetView(data, status) {
+                if (status == google.maps.StreetViewStatus.OK) {
+                    var nearStreetViewLocation = data.location.latLng;
+                    var heading = google.maps.geometry.spherical.computeHeading(
+                    nearStreetViewLocation, marker.position);
+                    infowindow.setContent('<div>' + marker.title +'</div>' + '<div>' + marker.fact + '</div>'+ '<div id="thumbnail"></div>');
+                    var panoramaOptions = {
+                        position: nearStreetViewLocation,
+                        pov: {
+                            heading: heading,
+                            pitch: 15
+                  }
+                };
+                    var panorama = new google.maps.StreetViewPanorama(
+                    document.getElementById('thumbnail'), panoramaOptions);
+                } else {
+                  infowindow.setContent('<div>' + marker.title + '</div>' +
+                  '<div>No Street View Found</div>');
+                }
+            }
+            // radius is set to 50 so the streetview will load the closest possible view within radius
+            streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+            // Opens the window on the marker.
+            infowindow.open(map, marker);
+        }
+    }
 
  };
 
