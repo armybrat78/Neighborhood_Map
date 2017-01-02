@@ -19,7 +19,7 @@
     width: 30%;
 }
 #header-title {
-    padding-right: 10px;
+    padding-right: 20px;
     text-align: right;
     text-transform: uppercase;
     width: 70%;
@@ -67,3 +67,8 @@
   float: left;
   padding-right: 10px;
   }
+
+#thumbnail {
+  width: 200px;
+  height: 200px;
+}
