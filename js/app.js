@@ -56,15 +56,6 @@ var markers = [];
 
 var userInput;
 
- //create attraction title and title for each attraction object in the observable array
-
- var Attraction = function(data) {
-     this.title = ko.observable(data.title);
-     this.fact = ko.observable(data.fact);
- };
-
-
-
  function initMap() {
      var kauai = {
          lat: 22.0584376,
@@ -296,32 +287,7 @@ var userInput;
              }
          ]
      });
-
-  ko.applyBindings(new ViewModel());
-
- }
-
-
-
- //view model 
-
- var ViewModel = function() {
-
-     var self = this;
-
-     self.attractionList = ko.observableArray([]);
-
-     model.forEach(function(attractionItem) {
-         self.attractionList.push(new Attraction(attractionItem));
-     });
-
-     //stuck here- trying to load the same fill window function when clicking an attraction on the list
-     self.currentAttraction = function(){
-        fillwindow();
-     };
-
-
-     // Limits the map to display attractions on the screen
+ // Limits the map to display attractions on the screen
      var bounds = new google.maps.LatLngBounds();
 
      //unclicked marker color 
@@ -418,6 +384,41 @@ var userInput;
         }
     }
 
+  ko.applyBindings(new ViewModel());
+
+ }
+
+  //create attraction title and title for each attraction object in the observable array
+
+ var Attraction = function(data) {
+     this.title = ko.observable(data.title);
+     this.fact = ko.observable(data.fact);
+     this.lat = ko.observable(data.location.lat);
+     this.lng = ko.observable(data.location.lng);
+ };
+
+
+
+ //view model 
+
+ var ViewModel = function() {
+
+     var self = this;
+
+     self.attractionList = ko.observableArray([]);
+
+     model.forEach(function(item) {
+         self.attractionList.push(new Attraction(item));
+     });
+
+
+     //stuck here- trying to load the same fill window function when clicking an attraction on the list
+     //self.currentAttraction = function(){
+       // fillwindow();
+     //};
+
+
+     
  };
 
  function googleError(){
