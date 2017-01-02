@@ -34,9 +34,9 @@
   <section class="container">
     <div id="attraction-list">
       <h4 class="title-list">Favorite Destinations: </h4>
-      <!-- <h5 class="search-box">Search:
-        <input type="text" data-bind="textInput: userInput" autocomplete="on">
-      </h5>-->
+      <h5 class="search-box">Search:
+        <input type="text" data-bind="value: filter, valueUdate: 'afterkeydown'" autocomplete="on">
+      </h5>
        <ul data-bind="foreach: attractionList">
           <li data-bind="text: title, click: $parent.currentAttraction" id="list-item"></li>
         </ul>
