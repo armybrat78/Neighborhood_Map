@@ -54,8 +54,6 @@ var map;
 //create empty array to hold model markers
 var markers = [];
 
-var userInput;
-
  function initMap() {
      var kauai = {
          lat: 22.0584376,
@@ -319,6 +317,7 @@ var userInput;
          //push markers out to array of markers
          markers.push(marker);
 
+
          //creates a variable info window
          var infowindow = new google.maps.InfoWindow();
 
@@ -405,19 +404,35 @@ var userInput;
 
      var self = this;
 
-     self.attractionList = ko.observableArray([]);
+     self.myList = ko.observableArray([]);
 
      model.forEach(function(item) {
-         self.attractionList.push(new Attraction(item));
+         self.myList.push(new Attraction(item));
      });
 
+     self.filter = ko.observable('');
+
+    // Marker animation upon list click
+    function currentAttraction(item) {
+      google.maps.event.trigger(item.marker, 'click');
+    };
 
      //stuck here- trying to load the same fill window function when clicking an attraction on the list
      //self.currentAttraction = function(){
        // fillwindow();
      //};
 
-
+    //test code http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
+     self.attractionList = ko.computed(function(){
+        var filter = self.filter().toLowerCase();
+                if(!filter){
+                    return self.myList();
+                } else {
+                    return ko.utils.arrayFilter(self.myList(), function(item){
+                        return item.title.toLowerCase().indexOf(filter) !== -1;
+                    });
+                }
+            });
      
  };
 
