@@ -236,7 +236,96 @@ var markers = [];
              }
          ]
      });
- // Limits the map to display attractions on the screen
+ 
+
+  ko.applyBindings(new ViewModel());
+
+ }
+
+  //create attraction title and title for each attraction object in the observable array
+
+ var Attraction = function(data) {
+     this.title = ko.observable(data.title);
+     this.fact = ko.observable(data.fact);
+     this.lat = ko.observable(data.location.lat);
+     this.lng = ko.observable(data.location.lng);
+ };
+
+
+
+ //view model 
+
+ var ViewModel = function() {
+
+     var self = this;
+
+     self.myList = ko.observableArray([]);
+
+     model.forEach(function(item) {
+         self.myList.push(new Attraction(item));
+     });
+
+     self.currentAttraction = function() {
+        fillwindow(this.marker, infowindow);
+    };
+
+         //stuck here- trying to load the same fill window function when clicking an attraction on the list
+     self.currentAttraction = function(){
+        //fillwindow();
+        wikiFill();
+     };
+
+     self.filter = ko.observable('');
+
+    // Marker animation upon list click
+    //function currentAttraction(item) {
+    //  google.maps.event.trigger(item.marker, 'click');
+    //};
+
+
+
+    //test code http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
+     self.attractionList = ko.computed(function(){
+        var filter = self.filter().toLowerCase();
+                if(!filter){
+                    return self.myList();
+                } else {
+                    return ko.utils.arrayFilter(self.myList(), function(item){
+                        return item.title.toLowerCase().indexOf(filter) !== -1;
+                    });
+                }
+            });
+
+     wikiFill = function(title){ 
+        var $wikiContent = $('wiki-content');
+        //clear content before loading new
+        $wikiContent.text('');
+
+        // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
+        var wikiRequestTimeout = setTimeout(function() {
+            alert("Wikipedia API could not be reached");
+            
+        }, 3000); //3000 sets error handling message to be displayed after 3 seconds
+
+        wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + title + '&format=json&callback=wikiCallback';
+
+            $.ajax({
+            url: wikiUrl,
+            dataType:'jsonp',
+            success: function(response) {
+                var articleList = response[1];
+
+                //for (var i = 0; i < articleList.length; i++) {
+                   // articleStr = articleList[i];
+                    var url = 'http://en.wikipedia.org/wiki/' + articleList;
+                    $wikiContent.append('<li><a href="' + url + '">' + articleList + '</a></li>');
+                    clearTimeout(wikiRequestTimeout);
+                }
+            })   
+
+    };
+
+// Limits the map to display attractions on the screen
      var bounds = new google.maps.LatLngBounds();
 
      //unclicked marker color 
@@ -275,6 +364,7 @@ var markers = [];
          //add click event to open an info window
          marker.addListener('click', function() {
              fillwindow(this, infowindow);
+             wikiFill(this);
          });
 
          //add event listener for mousing over the marker to change the hightlighted color
@@ -333,90 +423,6 @@ var markers = [];
             infowindow.open(map, marker);
         }
     }
-
-  ko.applyBindings(new ViewModel());
-
- }
-
-  //create attraction title and title for each attraction object in the observable array
-
- var Attraction = function(data) {
-     this.title = ko.observable(data.title);
-     this.fact = ko.observable(data.fact);
-     this.lat = ko.observable(data.location.lat);
-     this.lng = ko.observable(data.location.lng);
- };
-
-
-
- //view model 
-
- var ViewModel = function() {
-
-     var self = this;
-
-     self.myList = ko.observableArray([]);
-
-     model.forEach(function(item) {
-         self.myList.push(new Attraction(item));
-     });
-
-     self.filter = ko.observable('');
-
-    // Marker animation upon list click
-    //function currentAttraction(item) {
-    //  google.maps.event.trigger(item.marker, 'click');
-    //};
-
-     //stuck here- trying to load the same fill window function when clicking an attraction on the list
-     self.currentAttraction = function(){
-        //fillwindow();
-        wikiFill();
-     };
-
-    //test code http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
-     self.attractionList = ko.computed(function(){
-        var filter = self.filter().toLowerCase();
-                if(!filter){
-                    return self.myList();
-                } else {
-                    return ko.utils.arrayFilter(self.myList(), function(item){
-                        return item.title.toLowerCase().indexOf(filter) !== -1;
-                    });
-                }
-            });
-
-     wikiFill = function(title){ 
-        var $wikiContent = $('wiki-content');
-        //clear content before loading new
-        $wikiContent.text('');
-
-        // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
-        var wikiRequestTimeout = setTimeout(function() {
-            alert("Wikipedia API could not be reached");
-            
-        }, 3000); //3000 sets error handling message to be displayed after 3 seconds
-
-        wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + title + '&format=json&callback=wikiCallback';
-
-            $.ajax({
-            url: wikiUrl,
-            dataType:'jsonp',
-            }).done(function( response ) {
-                var articleList = response[1];
-
-                for (var i = 0; i < articleList.length; i++) {
-                    articleStr = articleList[i];
-                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    $wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
-                }
-            clearTimeout(wikiRequestTimeout);
-            });
-
-        return false;
-
-    };
-
   
  };
 
