@@ -1,9 +1,7 @@
  
 //initialize map
 var map;
-
-//create empty array to hold model markers
-var markers = [];
+var vm;
 
  function initMap() {
      var kauai = {
@@ -245,13 +243,17 @@ var markers = [];
   //create attraction title and title for each attraction object in the observable array
 
  var Attraction = function(data) {
-     this.title = ko.observable(data.title);
-     this.fact = ko.observable(data.fact);
-     this.lat = ko.observable(data.location.lat);
-     this.lng = ko.observable(data.location.lng);
+     this.title = data.title;
+     this.fact = data.fact;
+     this.lat = data.location.lat;
+     this.lng = data.location.lng;
+     this.marker = data.marker
+     this.wikiTitle = data.wikiTitle;
  };
 
 
+//create empty array to hold model markers
+var markers = [];
 
  //view model 
 
@@ -267,37 +269,38 @@ var markers = [];
 
      self.currentAttraction = function() {
         fillwindow(this.marker, infowindow);
+        wikiFill(this.wikiTitle);
     };
-
-         //stuck here- trying to load the same fill window function when clicking an attraction on the list
-     self.currentAttraction = function(){
-        //fillwindow();
-        wikiFill();
-     };
 
      self.filter = ko.observable('');
 
-    // Marker animation upon list click
-    //function currentAttraction(item) {
-    //  google.maps.event.trigger(item.marker, 'click');
-    //};
-
-
-
-    //test code http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
+     //this function executes when the filter is modified- it recomputes every time text is entered
+     //into the input. 
+    //http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
      self.attractionList = ko.computed(function(){
         var filter = self.filter().toLowerCase();
+                //if no filter is entered return the unmodified list
                 if(!filter){
                     return self.myList();
+                    //if text is entered pass the observable array and function to the function 
+                    //if not -1 (ie if there is text present that matches in the array)
+                    //return the matching item 'var new Array'
                 } else {
-                    return ko.utils.arrayFilter(self.myList(), function(item){
-                        return item.title.toLowerCase().indexOf(filter) !== -1;
-                    });
+                    var newArray =  ko.utils.arrayFilter(self.myList(), function(item){
+                        if (item.title.toLowerCase().indexOf(filter) !== -1) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }); 
+                        return newArray;
                 }
             });
 
-     wikiFill = function(title){ 
-        var $wikiContent = $('wiki-content');
+//self.wikiText = ko.observable(''); 
+
+     wikiFill = function(wikiTitle){ 
+        var $wikiContent = $('#wiki-content');
         //clear content before loading new
         $wikiContent.text('');
 
@@ -307,7 +310,7 @@ var markers = [];
             
         }, 3000); //3000 sets error handling message to be displayed after 3 seconds
 
-        wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + title + '&format=json&callback=wikiCallback';
+        wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + wikiTitle + '&format=json&callback=wikiCallback';
 
             $.ajax({
             url: wikiUrl,
@@ -315,15 +318,18 @@ var markers = [];
             success: function(response) {
                 var articleList = response[1];
 
-                //for (var i = 0; i < articleList.length; i++) {
-                   // articleStr = articleList[i];
-                    var url = 'http://en.wikipedia.org/wiki/' + articleList;
-                    $wikiContent.append('<li><a href="' + url + '">' + articleList + '</a></li>');
+                for (var i = 0; i < articleList.length; i++) {
+                    articleStr = articleList[i];
+                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                    $wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
                     clearTimeout(wikiRequestTimeout);
-                }
-            })   
 
-    };
+                    console.log(response);
+                }
+            }  
+
+    });
+}
 
 // Limits the map to display attractions on the screen
      var bounds = new google.maps.LatLngBounds();
@@ -335,13 +341,13 @@ var markers = [];
      var markerSelected = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 
      //create an array of markers from the model locations
-     for (i = 0; i < model.length; i++) {
+     for (i = 0; i < self.myList().length; i++) {
          //get the position and title from the model array
-         var position = model[i].location;
+         var position = new google.maps.LatLng(self.myList()[i].lat, self.myList()[i].lng);
 
-         var title = model[i].title;
+         var title = self.myList()[i].title;
 
-         var fact = model[i].fact;
+         var fact = self.myList()[i].fact;
 
          //create a marker for each position and add to the empty array
          var marker = new google.maps.Marker({
@@ -357,6 +363,8 @@ var markers = [];
          //push markers out to array of markers
          markers.push(marker);
 
+         //save the marker to the object
+         self.myList()[i].marker = marker;
 
          //creates a variable info window
          var infowindow = new google.maps.InfoWindow();
