@@ -57,16 +57,16 @@
   text-align: center;
 }
 
-#attraction {
-  width: 100%;
-  text-align: center
-}
-
 #attraction-list {
   width: 25%;
   float: left;
   padding-right: 10px;
+  max-height: 50%;
   }
+#wiki-content {
+  max-height: 50%;
+  padding-right: 10px;
+}
 
 #thumbnail {
   width: 200px;
