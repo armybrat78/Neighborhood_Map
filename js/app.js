@@ -270,6 +270,7 @@ var markers = [];
      self.currentAttraction = function() {
         fillwindow(this.marker, infowindow);
         wikiFill(this.wikiTitle);
+        toggleBounce(this.marker, marker);
     };
 
      self.filter = ko.observable('');
@@ -371,6 +372,7 @@ var markers = [];
 
          //add click event to open an info window
          marker.addListener('click', function() {
+             toggleBounce(this, marker);
              fillwindow(this, infowindow);
              wikiFill(this);
          });
@@ -382,6 +384,14 @@ var markers = [];
          marker.addListener('mouseout', function() {
              this.setIcon(markerDefault);
          });
+
+         function toggleBounce(marker) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            setTimeout(function() {
+                 marker.setAnimation(google.maps.Animation.null);
+                }, 2000);
+            };
+         
 
          bounds.extend(markers[i].position);
          //make sure all of the markers fit within the map bounds
