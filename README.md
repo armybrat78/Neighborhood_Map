@@ -9,6 +9,7 @@ As a part of [Udacity's](http://www.udacity.com) Front-end Web Developer Nanodeg
 ##### The Map
 
 My live version is linked [here](https://megdollar.github.io/Neighborhood_Map/)
+
 This is a link to my GitHub [repo](https://github.com/megdollar/Neighborhood_Map)
 
 ### Optimization
@@ -21,7 +22,7 @@ The index page orginially had a [Google Page Speed Insights](https://developers.
 Minified the Javascript using this [tool](https://javascript-minifier.com/) and added the [async](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script) attribute to all script tags.
 
 ###### CSS
-Minified the CSS using this [tool](https://cssminifier.com/) and inlined it as well.  
+Minified the CSS using this [tool](https://cssminifier.com/).  
 
 #### Framework
 
