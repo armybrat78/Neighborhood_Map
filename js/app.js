@@ -10,7 +10,7 @@ var vm;
      };
      map = new google.maps.Map(document.getElementById('map'), {
          center: kauai,
-         zoom: 11,
+         zoom: 15,
          styles: [{
                  "featureType": "all",
                  "elementType": "labels",
@@ -235,8 +235,8 @@ var vm;
          ]
      });
  
-
-  ko.applyBindings(new ViewModel());
+  vm = new ViewModel();
+  ko.applyBindings(vm);
 
  }
 
@@ -289,21 +289,24 @@ var markers = [];
                 } else {
                     var newArray =  ko.utils.arrayFilter(self.myList(), function(item){
                         if (item.title.toLowerCase().indexOf(filter) !== -1) {
+                            item.marker.setVisible(true);
                             return true;
                         } else {
+                            item.marker.setVisible(false);
                             return false;
                         }
-                    }); 
+                    });
+
                         return newArray;
                 }
             });
 
-//self.wikiText = ko.observable(''); 
+    self.wikiText = ko.observable(''); 
 
      wikiFill = function(wikiTitle){ 
-        var $wikiContent = $('#wiki-content');
+        
         //clear content before loading new
-        $wikiContent.text('');
+        self.wikiText('');
 
         // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
         var wikiRequestTimeout = setTimeout(function() {
@@ -322,10 +325,10 @@ var markers = [];
                 for (var i = 0; i < articleList.length; i++) {
                     articleStr = articleList[i];
                     var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    $wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
-                    clearTimeout(wikiRequestTimeout);
+                    self.wikiText('<li><a href="' + url + '">' + articleStr + '</a></li>');
 
-                    console.log(response);
+                    //$wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
+                    clearTimeout(wikiRequestTimeout);
                 }
             }  
 
