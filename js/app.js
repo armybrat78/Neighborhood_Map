@@ -301,12 +301,18 @@ var markers = [];
                 }
             });
 
-    self.wikiText = ko.observable(''); 
+    self.articleList = ko.observableArray([]); 
+
+    function article(content, url) {
+        var self = this;
+        self.content = content;
+        self.url = url;
+    }
 
      wikiFill = function(wikiTitle){ 
         
         //clear content before loading new
-        self.wikiText('');
+        self.articleList('');
 
         // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
         var wikiRequestTimeout = setTimeout(function() {
@@ -320,17 +326,28 @@ var markers = [];
             url: wikiUrl,
             dataType:'jsonp',
             success: function(response) {
-                var articleList = response[1];
 
-                for (var i = 0; i < articleList.length; i++) {
+                 self.articleList('');
+
+                 articleList = response[1];
+
+                //model.forEach(function(item) {
+                //self.wikiText.push(wikiList);
+                //});
+
+                    for (var i = 0; i < articleList.length; i++) {
                     articleStr = articleList[i];
                     var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    self.wikiText('<li><a href="' + url + '">' + articleStr + '</a></li>');
+                    //return self.wikiText('<li><a href="' + url + '">' + articleStr + '</a></li>');
+                    self.articleList[i].push(new article(articleStr, url));
+
+                    }
+                
 
                     //$wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
                     clearTimeout(wikiRequestTimeout);
                 }
-            }  
+              
 
     });
 }
