@@ -11,6 +11,7 @@ var vm;
      map = new google.maps.Map(document.getElementById('map'), {
          center: kauai,
          zoom: 15,
+         scrollwheel: false,
          styles: [{
                  "featureType": "all",
                  "elementType": "labels",
@@ -331,12 +332,9 @@ var markers = [];
 
                  articleList = response[1];
 
-                    for (var i = 0; i < articleList.length; i++) {
-                    articleStr = articleList[i];
+                    articleStr = articleList[0];
                     var url = 'https://en.wikipedia.org/wiki/' + articleStr;
                     self.articleList.push(new article(articleStr, url));
-
-                    }
                 
                     clearTimeout(wikiRequestTimeout);
                 }
@@ -391,7 +389,7 @@ var markers = [];
          marker.addListener('click', function() {
              fillwindow(this, infowindow);
              toggleBounce(this, marker);
-             wikiFill(wikiTitle);
+             wikiFill(this.wikiTitle);
          });
 
          //add event listener for mousing over the marker to change the hightlighted color
