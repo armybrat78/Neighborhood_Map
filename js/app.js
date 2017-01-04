@@ -364,6 +364,7 @@ var markers = [];
          var fact = self.myList()[i].fact;
 
          var wikiTitle = self.myList()[i].wikiTitle;
+         console.log(wikiTitle);
 
          //create a marker for each position and add to the empty array
          var marker = new google.maps.Marker({
@@ -390,7 +391,7 @@ var markers = [];
          marker.addListener('click', function() {
              fillwindow(this, infowindow);
              toggleBounce(this, marker);
-             wikiFill(this, wikiTitle);
+             wikiFill(wikiTitle);
          });
 
          //add event listener for mousing over the marker to change the hightlighted color
