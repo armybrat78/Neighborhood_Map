@@ -60,4 +60,4 @@ The [Google Maps API](https://github.com/udacity/ud864) course had a plethora of
 
 #### Known Bug
 
-The ** Kalapaki Beach ** location does not have a Wikipedia page; therefore, rather than have an error alert message, the * Kauai * Wikipedia page was used for the search.
+The **Kalapaki Beach** location does not have a Wikipedia page; therefore, rather than have an error alert message, the *Kauai* Wikipedia page was used for the search.
