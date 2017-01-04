@@ -248,7 +248,7 @@ var vm;
      this.fact = data.fact;
      this.lat = data.location.lat;
      this.lng = data.location.lng;
-     this.marker = data.marker
+     this.marker = data.marker;
      this.wikiTitle = data.wikiTitle;
  };
 
@@ -341,7 +341,7 @@ var markers = [];
               
 
     });
-}
+};
 
 // Limits the map to display attractions on the screen
      var bounds = new google.maps.LatLngBounds();
@@ -362,7 +362,6 @@ var markers = [];
          var fact = self.myList()[i].fact;
 
          var wikiTitle = self.myList()[i].wikiTitle;
-         console.log(wikiTitle);
 
          //create a marker for each position and add to the empty array
          var marker = new google.maps.Marker({
@@ -405,7 +404,7 @@ var markers = [];
             setTimeout(function() {
                  marker.setAnimation(google.maps.Animation.null);
                 }, 2000);
-            };
+            }
          
 
          bounds.extend(markers[i].position);
