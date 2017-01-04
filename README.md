@@ -16,7 +16,7 @@ This is a link to my GitHub [repo](https://github.com/megdollar/Neighborhood_Map
 
 #### Index Page
 
-The index page orginially had a [Google Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/) score of XX/100 mobile and XX/100 desktop. After implementing the following optimizations I was able to achieve a score of XX/100 on mobile and XX/100 on desktop.
+The index page orginially had a [Google Page Speed Insights](https://developers.google.com/speed/pagespeed/insights/) score of 62/100 mobile and 75/100 desktop. After implementing the following optimizations I was able to achieve a score of 91/100 on mobile and 89/100 on desktop.
 
 ###### JavaScript
 Minified the Javascript using this [tool](https://javascript-minifier.com/) and added the [async](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script) attribute to all script tags.
@@ -57,3 +57,7 @@ In this [AJAX](https://www.udacity.com/api/nodes/3180658597/supplemental_media/u
 ###### Google Maps API
 
 The [Google Maps API](https://github.com/udacity/ud864) course had a plethora of information that I was able to implement for this project
+
+#### Known Bug
+
+The ** Kalapaki Beach ** location does not have a Wikipedia page; therefore, rather than have an error alert message, the * Kauai * Wikipedia page was used for the search.
