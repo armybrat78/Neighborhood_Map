@@ -269,8 +269,8 @@ var markers = [];
 
      self.currentAttraction = function() {
         fillwindow(this.marker, infowindow);
-        wikiFill(this.wikiTitle);
         toggleBounce(this.marker, marker);
+        wikiFill(this.wikiTitle);
     };
 
      self.filter = ko.observable('');
@@ -312,7 +312,7 @@ var markers = [];
      wikiFill = function(wikiTitle){ 
         
         //clear content before loading new
-        self.articleList('');
+        self.articleList.removeAll();
 
         // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
         var wikiRequestTimeout = setTimeout(function() {
@@ -327,24 +327,17 @@ var markers = [];
             dataType:'jsonp',
             success: function(response) {
 
-                 self.articleList('');
+                 self.articleList.removeAll();
 
                  articleList = response[1];
 
-                //model.forEach(function(item) {
-                //self.wikiText.push(wikiList);
-                //});
-
                     for (var i = 0; i < articleList.length; i++) {
                     articleStr = articleList[i];
-                    var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                    //return self.wikiText('<li><a href="' + url + '">' + articleStr + '</a></li>');
-                    self.articleList[i].push(new article(articleStr, url));
+                    var url = 'https://en.wikipedia.org/wiki/' + articleStr;
+                    self.articleList.push(new article(articleStr, url));
 
                     }
                 
-
-                    //$wikiContent.append('<li><a href="' + url + '">' + articleStr + '</a></li>');
                     clearTimeout(wikiRequestTimeout);
                 }
               
@@ -370,6 +363,8 @@ var markers = [];
 
          var fact = self.myList()[i].fact;
 
+         var wikiTitle = self.myList()[i].wikiTitle;
+
          //create a marker for each position and add to the empty array
          var marker = new google.maps.Marker({
              map: map,
@@ -377,6 +372,7 @@ var markers = [];
              position: position,
              title: title,
              fact: fact,
+             wikiTitle: wikiTitle,
              animation: google.maps.Animation.DROP,
              id: i
          });
@@ -392,9 +388,9 @@ var markers = [];
 
          //add click event to open an info window
          marker.addListener('click', function() {
-             toggleBounce(this, marker);
              fillwindow(this, infowindow);
-             wikiFill(this);
+             toggleBounce(this, marker);
+             wikiFill(this, wikiTitle);
          });
 
          //add event listener for mousing over the marker to change the hightlighted color
