@@ -1,20 +1,3 @@
-Skip to content
-This repository
-Search
-Pull requests
-Issues
-Gist
- @megdollar
- Unwatch 1
-  Star 0
-  Fork 0 megdollar/Neighborhood_Map
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Pulse  Graphs  Settings
-Branch: gh-pages Find file Copy pathNeighborhood_Map/css/responsive.css
-bf74e96  18 hours ago
-@megdollar megdollar Add files via upload
-1 contributor
-RawBlameHistory     
-104 lines (92 sloc)  1.52 KB
 
 * {
     -webkit-box-sizing: border-box;
@@ -23,6 +6,7 @@ RawBlameHistory
    box-sizing: border-box;
 }
 .header {
+    height: 219px;
     margin:10px;
     max-width: 100%;
     width: 100%;
@@ -55,20 +39,23 @@ RawBlameHistory
 
 .title-logo {
   margin-top: 20px;
+  margin-bottom: 20px;
   padding: 10px;
   max-width: 75%;
-
+  max-height: 200px;
+}
+.content{
+    height: 450px;
 }
 
 .container {
+    height: 100%;
     margin: 0;
     padding: 0;
     width: 25%;
     background-color: #f1f1f1;
     float:left;
-    height: 100%;
     overflow: auto;
-    height: 1000px;
 }
 
 .container li, #attraction-list, .title-list {
@@ -84,9 +71,10 @@ RawBlameHistory
 
 
 #map {
+    height: 450px;
     margin-left: 25%;
     padding: 1px 16px;
-    height: 1000px;
+    height: 100%;
 }
 #thumbnail {
   width: 200px;
@@ -105,7 +93,7 @@ RawBlameHistory
     }
     #map {
         margin-left:0;
-        height: 500px;
+        height: 300px;
         width: 100%;
     }
 
@@ -119,5 +107,3 @@ RawBlameHistory
     }
 
 }
-Contact GitHub API Training Shop Blog About
-© 2017 GitHub, Inc. Terms Privacy Security Status Help
