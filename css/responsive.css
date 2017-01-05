@@ -44,11 +44,9 @@
   max-width: 75%;
   max-height: 200px;
 }
-.content{
-    height: 450px;
-}
 
 .container {
+    max-height: 450px;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -74,7 +72,7 @@
     height: 450px;
     margin-left: 25%;
     padding: 1px 16px;
-    height: 100%;
+    
 }
 #thumbnail {
   width: 200px;
