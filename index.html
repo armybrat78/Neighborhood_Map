@@ -8,9 +8,10 @@
 
     <title>Neighborhood Map</title>
 
-<style>
+
+    <style>
     *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-ms-box-sizing:border-box;box-sizing:border-box}.header{height:219px;margin:10px;max-width:100%;width:100%;color:#2d3c49}.header-inner{width:100%;display:flex;flex-wrap:wrap}.header-logo{width:30%}#header-title{padding-right:20px;text-align:right;text-transform:uppercase;width:70%}.title{font-size:3em;margin-bottom:0}.author{margin-top:5px;font-weight:900;font-size:130%}.title-logo{margin-top:20px;margin-bottom:20px;padding:10px;max-width:75%;max-height:200px}.container{max-height:450px;height:100%;margin:0;padding:0;width:25%;background-color:#f1f1f1;float:left;overflow:auto}#attraction-list,.container li,.title-list{display:block;color:#000;padding:8px;text-decoration:none;text-align:center}ul{padding-left:0}#map{height:450px;margin-left:25%;padding:1px 16px}#thumbnail{width:200px;height:200px}@media screen and (max-width:600px){.container{width:100%;max-height:150px;position:relative}.container li{padding:15px}#map{margin-left:0;height:300px;width:100%}#attraction-list,.container li,.title-list{text-align:center;float:none}.title{font-size:1.5em}}
-    </style>
+    </style>  
 </head>
 
 <body>
@@ -31,25 +32,28 @@
       <hr>
     </div>
   </div>
+  <main class="content">
+    <section class="container">
 
-  <section class="container">
-
-    <div id="attraction-list">
-      <h4 class="title-list">Favorite Destinations: </h4>
-      <h5 class="search-box">Search:
-        <input type="text" data-bind="value: filter, valueUpdate: 'afterkeydown'" autocomplete="on">
-      </h5>
-       <ul data-bind="foreach: attractionList">
-          <li data-bind="text: title, click: $parent.currentAttraction" id="list-item"></li>
+      <div id="attraction-list">
+        <h4 class="title-list">Favorite Destinations: </h4>
+        <h5 class="search-box">Search:
+         <input type="text" data-bind="value: filter, valueUpdate: 'afterkeydown'" autocomplete="on">
+        </h5>
+        <ul data-bind="foreach: attractionList">
+            <li data-bind="text: title, click: $parent.currentAttraction" id="list-item"></li>
         </ul>
-      <h4 class="title-list">Wikepedia Information:</h4>
+        <h4 class="title-list">Wikepedia Information:</h4>
       
-      <ul data-bind= "foreach: articleList"><a data-bind="attr:{href:url}, text: content" id="wiki-content"></a></ul>
+        <ul data-bind= "foreach: articleList"><li><a target="_blank" data-bind="attr:{href:url}, text: content" id="wiki-content"></a></li></ul>
       
-    </div>
+      </div>
     
-  </section>
-    <div id="map"></div>
+    </section>
+    <section id="map">
+      
+    </section>
+  </main>
 
 
   <!-- add here to make responsive design work <div id="map"></div> -->
@@ -58,7 +62,7 @@
     <script src="js/lib/jquery.min.js"></script>
     <script src="js/lib/knockout-3.4.1.js"></script>
     <script src="js/model-min.js"></script>
-    <script src="js/app-min.js"></script>
+    <script src="js/app.js"></script>
 
     <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyCWPaK_E7Zw7sUGa7oxoJVaNb2B8D66DG0&callback=initMap" onerror="googleError()"></script>
 
