@@ -1,7 +1,7 @@
+
  
 //initialize map
-var map;
-var vm;
+var map, vm;
 
  function initMap() {
      var kauai = {
@@ -283,6 +283,10 @@ var markers = [];
         var filter = self.filter().toLowerCase();
                 //if no filter is entered return the unmodified list
                 if(!filter){
+                    //show all markers if no input
+                    self.myList().forEach(function(item){
+                        item.marker.setVisible(true);
+                    });
                     return self.myList();
                     //if text is entered pass the observable array and function to the function 
                     //if not -1 (ie if there is text present that matches in the array)
@@ -311,9 +315,7 @@ var markers = [];
     }
 
      wikiFill = function(wikiTitle){ 
-        
-        //clear content before loading new
-        self.articleList.removeAll();
+
 
         // If the wikiRequest times out, then display a message with a link to the Wikipedia page.
         var wikiRequestTimeout = setTimeout(function() {
@@ -328,6 +330,7 @@ var markers = [];
             dataType:'jsonp',
             success: function(response) {
 
+                //clear content 
                  self.articleList.removeAll();
 
                  articleList = response[1];
@@ -351,6 +354,10 @@ var markers = [];
 
      //clicked marker
      var markerSelected = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+
+     //mouseOver marker
+     var markerMouseover = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png';
+
 
      //create an array of markers from the model locations
      for (i = 0; i < self.myList().length; i++) {
@@ -393,7 +400,7 @@ var markers = [];
 
          //add event listener for mousing over the marker to change the hightlighted color
          marker.addListener('mouseover', function() {
-             this.setIcon(markerSelected);
+             this.setIcon(markerMouseover);
          });
          marker.addListener('mouseout', function() {
              this.setIcon(markerDefault);
