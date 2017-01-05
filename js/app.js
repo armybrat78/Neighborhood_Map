@@ -285,7 +285,9 @@ var markers = [];
                 if(!filter){
                     //show all markers if no input
                     self.myList().forEach(function(item){
-                        item.marker.setVisible(true);
+                        if (item.marker) {
+                            item.marker.setVisible(true);
+                        }
                     });
                     return self.myList();
                     //if text is entered pass the observable array and function to the function 
